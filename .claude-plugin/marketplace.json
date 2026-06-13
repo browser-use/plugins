@@ -7,7 +7,7 @@
       "name": "browser-harness",
       "description": "Direct CDP browser control for coding agents: coordinate clicks, screenshots, a persistent Python session, and bulk HTTP — driving the user's real Chrome or a Browser Use cloud browser. Ships skills only; the browser-harness CLI is a one-time install prerequisite.",
       "category": "automation",
-      "source": { "source": "github", "repo": "browser-use/browser-harness" },
+      "source": { "source": "url", "url": "https://github.com/browser-use/browser-harness.git" },
       "homepage": "https://github.com/browser-use/browser-harness",
       "keywords": ["browser", "browser-use", "automation", "cdp", "chrome", "scraping", "screenshot"]
     }
