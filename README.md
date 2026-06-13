@@ -1,17 +1,17 @@
 # Browser Use plugins
 
-A marketplace of [Browser Use](https://browser-use.com) plugins for coding agents — drive a real browser, then edit the video of it.
+A self-contained marketplace of [Browser Use](https://browser-use.com) plugins for coding agents — drive a real browser, then edit the video of it.
 
-This repo is a thin **index**: it doesn't contain plugin code, it points at each plugin's own repo, pinned to a commit. Each plugin stays the single source of truth in its own repository.
+Everything is managed in **this** repo. Each plugin is vendored here as a local-source directory; the plugins are thin skills that point at a one-time CLI/tool install. No changes to the upstream tool repos are required.
 
 ## Plugins
 
-| Plugin | What it does | Source |
+| Plugin | What it does | Upstream tool |
 |---|---|---|
 | **browser-harness** | Direct CDP browser control — coordinate clicks, screenshots, persistent Python session, local Chrome or Browser Use cloud. | [browser-use/browser-harness](https://github.com/browser-use/browser-harness) |
 | **video-use** | Edit videos with a coding agent — transcript-driven cuts, color grade, subtitles, self-eval. | [browser-use/video-use](https://github.com/browser-use/video-use) |
 
-Both ship **skills only**. Their CLIs / runtimes are one-time install prerequisites documented inside each plugin.
+Both ship **skills only**. The actual CLI/tool is a one-time install prerequisite documented in each plugin's `skills/<name>/references/install.md`; the skill then points at that install for its deeper docs and scripts.
 
 ## Install (Claude Code)
 
@@ -23,12 +23,16 @@ claude plugin install video-use@browser-use
 
 ## Layout
 
-- `.grok-plugin/marketplace.json` — xAI Grok catalog format (`source: url` + full `sha`).
-- `.claude-plugin/marketplace.json` — Claude Code catalog format (`source: github` + `commit`).
+```
+browser-harness/   vendored plugin (manifest + skill + install prereq)
+video-use/         vendored plugin (manifest + skill + install prereq)
+.claude-plugin/marketplace.json   Claude Code catalog (local sources "./browser-harness", "./video-use")
+.grok-plugin/marketplace.json     xAI Grok catalog (local sources {type:local, path})
+```
 
-Same plugin list, two host-specific source shapes — mirroring how upstream plugin repos ship parallel `.grok-plugin/` and `.claude-plugin/` directories.
+Two host-specific catalog files point at the same vendored directories — mirroring how upstream plugin repos ship parallel `.grok-plugin/` and `.claude-plugin/` dirs.
 
-## Status / TODO
+## Notes
 
-- **video-use is temporarily pinned to a fork** (`ShawnPana/video-use@3e7cf02`) while [browser-use/video-use#65](https://github.com/browser-use/video-use/pull/65) (which adds the plugin manifest) is in review. Once it merges, repoint both marketplace files to `browser-use/video-use` at the merge commit.
-- Grok note: Grok Build's built-in catalog is `xai-org/plugin-marketplace`; it does not add external marketplaces. This repo is the canonical source of truth and the Claude Code install target. To list in Grok, open per-plugin PRs to `xai-org/plugin-marketplace` pointing at the same repos/SHAs.
+- **Self-contained by design.** The skills are thin: they describe the tool, give the one-time install, and then reference the user's local checkout for heavy content (browser-harness's `interaction-skills/`, video-use's `helpers/`). So this repo never vendors that fast-moving code and never needs to re-sync it.
+- **Grok:** Grok Build's built-in catalog is `xai-org/plugin-marketplace`; it does not add external marketplaces. This repo is the canonical source of truth and the Claude Code install target. To list in Grok, open per-plugin PRs to `xai-org/plugin-marketplace`.

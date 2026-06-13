@@ -1,0 +1,9 @@
+{
+  "name": "video-use",
+  "version": "0.1.0",
+  "description": "Edit videos with a coding agent. Transcribe, cut filler, color grade, generate overlay animations, burn subtitles — conversational, no presets. Requires the one-time video-use install (clone + ffmpeg + ElevenLabs key; see the skill's references/install.md).",
+  "author": { "name": "Browser Use", "url": "https://browser-use.com" },
+  "homepage": "https://github.com/browser-use/video-use",
+  "license": "MIT",
+  "keywords": ["video", "editing", "ffmpeg", "transcript", "subtitles", "elevenlabs", "browser-use"]
+}
