@@ -1,23 +1,15 @@
 {
   "name": "browser-use",
-  "description": "Browser Use plugins for coding agents — drive a real browser, then edit the video of it.",
+  "description": "Browser Use plugins for Claude Code.",
   "owner": { "name": "Browser Use", "url": "https://browser-use.com" },
   "plugins": [
     {
       "name": "browser-harness",
       "description": "Direct CDP browser control for coding agents: coordinate clicks, screenshots, a persistent Python session, and bulk HTTP — driving the user's real Chrome or a Browser Use cloud browser. Ships skills only; the browser-harness CLI is a one-time install prerequisite.",
       "category": "automation",
-      "source": { "source": "github", "repo": "browser-use/browser-harness", "commit": "6bb6552bc57dd4b883ba5e9ea6fc33f51aff132f" },
+      "source": { "source": "github", "repo": "browser-use/browser-harness" },
       "homepage": "https://github.com/browser-use/browser-harness",
       "keywords": ["browser", "browser-use", "automation", "cdp", "chrome", "scraping", "screenshot"]
-    },
-    {
-      "name": "video-use",
-      "description": "Edit videos with a coding agent. Drop raw footage in a folder, chat, get final.mp4 — transcript-driven cuts, auto color grade, subtitles, self-eval. Ships skills only; clone + ffmpeg + ElevenLabs key are a one-time install prerequisite.",
-      "category": "automation",
-      "source": { "source": "github", "repo": "ShawnPana/video-use", "commit": "3e7cf02feaff4c9d8b5843fe35aa724cadcf2587" },
-      "homepage": "https://github.com/browser-use/video-use",
-      "keywords": ["video", "editing", "ffmpeg", "transcript", "subtitles", "elevenlabs", "browser-use"]
     }
   ]
 }
