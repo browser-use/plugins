@@ -10,6 +10,14 @@
       "source": { "source": "url", "url": "https://github.com/browser-use/browser-harness.git" },
       "homepage": "https://github.com/browser-use/browser-harness",
       "keywords": ["browser", "browser-use", "automation", "cdp", "chrome", "scraping", "screenshot"]
+    },
+    {
+      "name": "qa",
+      "description": "QA-test a website or app and return a 1-5 quality score with evidence. Drives a Browser Use cloud browser and tunnels localhost automatically. Run as /qa <url-or-localhost-port>. Requires the browser-harness plugin + CLI.",
+      "category": "automation",
+      "source": "./qa",
+      "homepage": "https://github.com/browser-use/plugins/tree/main/qa",
+      "keywords": ["qa", "testing", "browser-use", "cloud-browser", "score", "evaluation", "ngrok"]
     }
   ]
 }
