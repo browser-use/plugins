@@ -10,8 +10,9 @@ This repo is a catalog of Browser Use plugins for Claude Code. Most entries remo
 |---|---|---|
 | **browser-harness** | Direct CDP browser control — coordinate clicks, screenshots, persistent Python session, local Chrome or Browser Use cloud. | [browser-use/browser-harness](https://github.com/browser-use/browser-harness) |
 | **qa** | QA-test a website or app and return a 1–5 quality score with evidence. Drives a Browser Use cloud browser and tunnels localhost automatically. Run as `/qa <url-or-localhost-port>`. | [`qa/`](./qa) (colocated; requires browser-harness) |
+| **watch** | Monitor your Chrome in real time — network, console, and your actions (clicks/typing/navigations) plus a dense screen recording — then answer what happened. Follows the active tab across all tabs. Run as `/watch`. | [`watch/`](./watch) (colocated; requires browser-harness) |
 
-Both ship **skills only**. The `browser-harness` CLI is a one-time install prerequisite documented inside the plugin; `qa` runs through browser-harness, so install that first.
+All ship **skills only**. The `browser-harness` CLI is a one-time install prerequisite documented inside the plugin; `qa` and `watch` run through browser-harness, so install that first.
 
 ## Install
 
@@ -19,6 +20,7 @@ Both ship **skills only**. The `browser-harness` CLI is a one-time install prere
 claude plugin marketplace add browser-use/plugins
 claude plugin install browser-harness@browser-use
 claude plugin install qa@browser-use          # adds /qa
+claude plugin install watch@browser-use       # adds /watch
 ```
 
 ## Layout

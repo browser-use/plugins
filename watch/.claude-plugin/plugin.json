@@ -1,0 +1,13 @@
+{
+  "name": "watch",
+  "version": "0.1.0",
+  "description": "Monitor the user's Chrome in real time — network, console logs, and user actions (clicks/typing/navigations) — plus a dense screen recording — then answer what happened. Follows the active tab across all tabs. Requires the browser-harness plugin + CLI.",
+  "author": {
+    "name": "Browser Use",
+    "url": "https://browser-use.com"
+  },
+  "homepage": "https://github.com/browser-use/plugins",
+  "repository": "https://github.com/browser-use/plugins",
+  "license": "MIT",
+  "keywords": ["watch", "monitor", "browser", "browser-use", "recording", "timeline", "network", "console", "observability"]
+}
