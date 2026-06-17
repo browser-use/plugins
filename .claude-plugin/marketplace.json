@@ -18,6 +18,14 @@
       "source": "./qa",
       "homepage": "https://github.com/browser-use/plugins/tree/main/qa",
       "keywords": ["qa", "testing", "browser-use", "cloud-browser", "score", "evaluation", "ngrok"]
+    },
+    {
+      "name": "watch",
+      "description": "Monitor your Chrome in real time — network, console logs, and your actions (clicks/typing/navigations) plus a dense screen recording — then answer what happened. Follows the active tab across all tabs. Run as /watch. Requires the browser-harness plugin + CLI.",
+      "category": "automation",
+      "source": "./watch",
+      "homepage": "https://github.com/browser-use/plugins/tree/main/watch",
+      "keywords": ["watch", "monitor", "browser-use", "recording", "timeline", "network", "console", "observability"]
     }
   ]
 }
