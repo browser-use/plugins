@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "browser-use": {
+      "type": "http",
+      "url": "https://api.browser-use.com/v3/mcp",
+      "headers": {
+        "x-browser-use-api-key": "${BROWSER_USE_API_KEY}"
+      }
+    }
+  }
+}
