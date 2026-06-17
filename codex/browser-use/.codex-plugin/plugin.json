@@ -1,0 +1,20 @@
+{
+  "name": "browser-use",
+  "version": "0.1.0",
+  "description": "Give Codex a hosted Browser Use cloud agent: a stealth cloud browser plus the browser-use-2.0 agent for long-horizon web tasks. No local Chrome.",
+  "author": {
+    "name": "Browser Use",
+    "email": "support@browser-use.com",
+    "url": "https://browser-use.com"
+  },
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Browser Use",
+    "shortDescription": "Stealth cloud browser + agent for long-horizon web tasks.",
+    "longDescription": "Connects Codex to the hosted Browser Use MCP. Codex can spin up a stealth cloud browser and run long-horizon web tasks — browse, extract data, fill forms, log in, solve CAPTCHAs — with the browser-use-2.0 agent. Anti-detection, residential proxies, and automatic CAPTCHA solving are built in. No local Chrome and no CLI; set your Browser Use API key at install (free key at cloud.browser-use.com).",
+    "category": "Productivity",
+    "websiteURL": "https://browser-use.com",
+    "privacyPolicyURL": "https://browser-use.com/privacy",
+    "termsOfServiceURL": "https://browser-use.com/legal/terms-of-service"
+  }
+}
