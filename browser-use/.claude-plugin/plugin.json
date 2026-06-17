@@ -1,0 +1,13 @@
+{
+  "name": "browser-use",
+  "version": "0.1.0",
+  "description": "Give Claude Code a hosted Browser Use cloud agent. Spins up a stealth cloud browser and runs long-horizon web tasks — browse, extract data, fill forms, log in, solve CAPTCHAs — with the browser-use-2.0 agent. No local Chrome and no CLI to install; runs entirely on Browser Use Cloud. Set BROWSER_USE_API_KEY (free key at cloud.browser-use.com).",
+  "author": {
+    "name": "Browser Use",
+    "url": "https://browser-use.com"
+  },
+  "homepage": "https://browser-use.com",
+  "repository": "https://github.com/browser-use/plugins",
+  "license": "MIT",
+  "keywords": ["browser", "browser-use", "cloud-browser", "agent", "automation", "stealth", "mcp", "web-agent", "scraping", "captcha"]
+}

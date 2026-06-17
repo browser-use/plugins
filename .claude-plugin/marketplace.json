@@ -4,6 +4,14 @@
   "owner": { "name": "Browser Use", "url": "https://browser-use.com" },
   "plugins": [
     {
+      "name": "browser-use",
+      "description": "Give Claude Code a hosted Browser Use cloud agent — spin up a stealth cloud browser and run long-horizon web tasks (browse, extract, fill forms, log in, solve CAPTCHAs) with the browser-use-2.0 agent. No local Chrome or CLI; just set BROWSER_USE_API_KEY (free at cloud.browser-use.com). Adds the browser_task / monitor_task / skills tools via the hosted MCP server.",
+      "category": "automation",
+      "source": "./browser-use",
+      "homepage": "https://github.com/browser-use/plugins/tree/main/browser-use",
+      "keywords": ["browser", "browser-use", "cloud-browser", "agent", "automation", "stealth", "mcp", "web-agent", "scraping", "captcha"]
+    },
+    {
       "name": "browser-harness",
       "description": "Direct CDP browser control for coding agents: coordinate clicks, screenshots, a persistent Python session, and bulk HTTP — driving the user's real Chrome or a Browser Use cloud browser. Ships skills only; the browser-harness CLI is a one-time install prerequisite.",
       "category": "automation",
