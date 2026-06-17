@@ -63,5 +63,5 @@ Optional — if the user wants to watch it themselves, assemble an mp4 from the 
 
 - **Granular by design:** the recording is dense so playback shows motion (spinner → toast → redirect), but you only ever *read* the slice the question needs — the timeline tells you where to look.
 - **Privacy:** raw keystrokes and input values are **not** captured — only field identity + value length, and password fields are redacted. Say so if the user asks.
-- **Cleanup:** after answering, the monitor is already stopped (STOP sentinel). The session dir under `/tmp/watch-*` holds the frames/timeline until you or the user removes it.
+- **Cleanup:** the recorder keeps disk bounded on its own — it trims frames older than `WATCH_MAX_AGE` (30 min) within a session, and on every start it purges old `/tmp/watch-*` dirs, keeping only the newest `WATCH_KEEP_DIRS` (3). After you've fully answered and stopped the monitor, you can also `rm -rf "$(cat /tmp/watch-current)"` to drop the current session's frames immediately.
 - If the user says "keep watching" or asks something mid-stream, you may answer from the timeline without stopping — only stop when the episode is clearly over.

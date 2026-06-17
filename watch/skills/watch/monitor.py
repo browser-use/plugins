@@ -13,7 +13,25 @@ FRAMES = os.path.join(WATCH_DIR, "frames"); os.makedirs(FRAMES, exist_ok=True)
 TL = open(os.path.join(WATCH_DIR, "timeline.jsonl"), "a", buffering=1)
 STOP = os.path.join(WATCH_DIR, "STOP")
 INTERVAL = float(os.environ.get("WATCH_INTERVAL", "0.4"))
-MAX_AGE = float(os.environ.get("WATCH_MAX_AGE", "1800"))
+MAX_AGE = float(os.environ.get("WATCH_MAX_AGE", "1800"))   # trim frames older than this (sec)
+KEEP_DIRS = int(os.environ.get("WATCH_KEEP_DIRS", "3"))    # how many session dirs to keep around
+
+def purge_old_sessions():
+    """Delete stale /tmp/watch-* session dirs so /watch can't leak GB of frames over time.
+    Keeps the newest KEEP_DIRS (by mtime), including the current one; removes the rest."""
+    import shutil
+    base = os.path.dirname(WATCH_DIR)
+    dirs = []
+    for n in os.listdir(base):
+        p = os.path.join(base, n)
+        if n.startswith("watch-") and n[6:].isdigit() and os.path.isdir(p):
+            try: dirs.append((os.path.getmtime(p), p))
+            except OSError: pass
+    for _, p in sorted(dirs, reverse=True)[KEEP_DIRS:]:
+        if p != WATCH_DIR:
+            shutil.rmtree(p, ignore_errors=True)
+
+purge_old_sessions()
 
 # Listeners push each action through the __watchEmit CDP binding the instant it happens —
 # so a click that triggers a navigation is captured before the page unloads.
@@ -73,6 +91,8 @@ def attach(t):
     return sid
 
 rec("watch.started", {"dir": WATCH_DIR})
+req_urls = {}      # requestId -> url, so a failed request can name its domain
+last_sweep = 0.0   # wall-clock of the last frame-retention sweep
 while not os.path.exists(STOP):
     now = time.time()
     tgts = page_targets()
@@ -110,10 +130,16 @@ while not os.path.exists(STOP):
                     rec("nav", {"url": fr.get("url")})
             elif m == "Runtime.exceptionThrown":
                 ed = e["params"].get("exceptionDetails", {}); rec("page.error", {"text": ed.get("text")})
+            elif m == "Network.requestWillBeSent":
+                req_urls[e["params"].get("requestId")] = e["params"].get("request", {}).get("url")
+                if len(req_urls) > 3000:                                     # bound memory
+                    for k in list(req_urls)[:1000]: req_urls.pop(k, None)
             elif m == "Network.responseReceived":
                 r = e["params"].get("response", {}); rec("net", {"status": r.get("status"), "url": r.get("url")})
             elif m == "Network.loadingFailed":
-                rec("net.fail", {"error": e["params"].get("errorText"), "type": e["params"].get("type")})
+                rid = e["params"].get("requestId")
+                rec("net.fail", {"error": e["params"].get("errorText"), "type": e["params"].get("type"),
+                                 "url": req_urls.get(rid, "")})
     except Exception:
         pass
     if active:
@@ -123,7 +149,8 @@ while not os.path.exists(STOP):
                 open(os.path.join(FRAMES, "%d.jpg" % int(now * 1000)), "wb").write(base64.b64decode(shot["data"]))
         except Exception:
             pass
-    if int(now) % 12 == 0:
+    if now - last_sweep > 12:          # time-based — runs even when iterations are slow (many tabs)
+        last_sweep = now
         cutoff = (now - MAX_AGE) * 1000
         for f in glob.glob(os.path.join(FRAMES, "*.jpg")):
             try:
