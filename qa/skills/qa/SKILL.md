@@ -26,7 +26,7 @@ PY
 ```
 
 If `browser-harness` is **not** on `PATH`, stop and tell the user to install it, then resume:
-- Plugin: `claude plugin install browser-harness@browser-use`
+- Plugin: install the `browser-harness` plugin for your agent — `claude plugin install browser-harness@browser-use` (Claude Code) or `codex plugin add browser-harness@browser-use` (Codex)
 - CLI (one-time): see the browser-harness skill's `references/install.md` (it's a `uv`/pip install of the `browser-harness` package). Repo: https://github.com/browser-use/browser-harness
 
 Do not attempt to QA with anything other than browser-harness + a cloud browser.

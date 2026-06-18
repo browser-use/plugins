@@ -1,0 +1,19 @@
+{
+  "name": "browser-use",
+  "interface": {
+    "displayName": "Browser Use"
+  },
+  "plugins": [
+    {
+      "name": "qa",
+      "source": {
+        "source": "local",
+        "path": "./qa"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
