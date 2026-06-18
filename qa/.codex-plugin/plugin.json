@@ -1,0 +1,17 @@
+{
+  "name": "qa",
+  "version": "0.1.0",
+  "description": "QA-test any website or app with a real browser and return a 1-5 score with evidence. Drives a Browser Use cloud browser (tunnels localhost automatically). Requires the browser-harness CLI.",
+  "author": {
+    "name": "Browser Use",
+    "url": "https://browser-use.com"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "QA",
+    "shortDescription": "QA-test a site or app and return a 1-5 score with evidence.",
+    "longDescription": "Drives a real Browser Use cloud browser to test a website or app and return a 1-5 quality score (5 = flawless, 1 = broken) with evidence. Tunnels a localhost dev server automatically. Run as /qa <url-or-localhost-port>. Requires the browser-harness CLI (a one-time uv/pip install).",
+    "category": "Productivity",
+    "websiteURL": "https://browser-use.com"
+  }
+}
