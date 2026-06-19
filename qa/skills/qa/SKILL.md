@@ -13,6 +13,15 @@ From the user's invocation (the text after `/qa`, or their message):
 - **Target** — a URL (`https://…`) or a local dev server (`localhost:5173`, `:3000`, "the app on 5173"). **Required** — if absent, ask for it before doing anything else.
 - **What to test** (optional) — a flow or focus ("the signup", "search + filters"). If omitted, test the most obvious happy path and say so in the report.
 
+## Choose a backend (recommended: Browser Use v2 agent)
+
+The test can run two ways — pick one (ask the user if it's unclear; **recommend v2** for real QA):
+
+- **Browser Use v2 cloud agent — recommended, *built for QA*.** Hand the whole test to an autonomous Browser Use agent: it has a **judge** (pass/fail evaluation against expected behavior) and **structured output** (forces the 1–5 score schema), runs server-side, parallelizes, and returns step-by-step evidence with screenshots. **It spends Browser Use credits** (~$0.01/task + ~$0.006/step + $0.02/hr browser, from the account's monthly allowance). Flow: **`references/browser-use-v2.md`**.
+- **Claude Code subagent — no task credits, full control.** You (or a spawned subagent) drive **browser-harness** on a cloud browser yourself, following the field-tested loop in **`references/methodology.md`**. Spends no Browser Use *task* credits — just cloud-browser time and your agent's own usage.
+
+Default to **v2** (the judge + structured score is the right tool for scoring); fall back to the Claude subagent when the user would rather not spend credits or wants you driving directly. **Either way, `browser-harness` is required** — it's the key store for v2, and the test driver + localhost tunnel for the Claude path.
+
 ## Dependency: browser-harness (required)
 
 This skill runs the test through **browser-harness** — a separate plugin + CLI. It is not optional; QA must run on a real Browser Use cloud browser, never the user's local Chrome.
@@ -34,8 +43,10 @@ Do not attempt to QA with anything other than browser-harness + a cloud browser.
 ## Procedure
 
 1. **Confirm the target is reachable** (`curl -s -o /dev/null -w "%{http_code}" <url>`), and identify what the app is (title, README) so you can frame a sensible test task.
-2. **Read `references/methodology.md`** in this skill directory and follow it exactly. It defines: how to get a Browser Use API key (or self-sign-up), how to tunnel a localhost app and point a cloud browser at it, the field-tested gotchas (host-header rewrite, proxy-off, the per-tab interstitial header, CORS-pinned APIs), the test loop, the 1-5 rubric, and the output format.
-3. **Run the test**, then **tear everything down** (stop the cloud browser so it stops billing; kill the tunnel).
-4. **Return the verdict**: lead with `Score: N/5`, then task, result, what worked, issues (tagged), edge cases tried, and screenshot evidence — exactly as `references/methodology.md` specifies.
+2. **Run the test with the chosen backend:**
+   - **v2 agent** → read **`references/browser-use-v2.md`** and follow it: create the task (with `judge` + a 1–5 `structuredOutput` schema), poll to completion, and read the verdict from `judgeVerdict` + the structured score. A `localhost` target still needs a tunnel (the cloud agent can't reach localhost) — tunnel it per `methodology.md` and pass the public URL as `startUrl`.
+   - **Claude subagent** → read **`references/methodology.md`** and follow it exactly: get/resolve the key, tunnel localhost, drive the cloud browser through the test loop with the field-tested gotchas (host-header rewrite, proxy-off, per-tab interstitial header, CORS-pinned APIs).
+3. **Tear everything down** (stop the cloud browser so it stops billing; kill the tunnel). The v2 agent's one-off session auto-closes.
+4. **Return the verdict**: lead with `Score: N/5`, then task, result, what worked, issues (tagged), edge cases tried, and evidence — using the rubric and output format in `references/methodology.md` (both backends report the same way; for v2, the score/verdict/evidence come from the agent's structured output + `steps`).
 
 Scale effort to the ask: a quick "does X work?" is a few interactions and one score; "thoroughly QA this" warrants more flows and edge cases. Keep the verdict honest, specific, and reproducible.
