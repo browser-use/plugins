@@ -13,14 +13,16 @@ From the user's invocation (the text after `/qa`, or their message):
 - **Target** — a URL (`https://…`) or a local dev server (`localhost:5173`, `:3000`, "the app on 5173"). **Required** — if absent, ask for it before doing anything else.
 - **What to test** (optional) — a flow or focus ("the signup", "search + filters"). If omitted, test the most obvious happy path and say so in the report.
 
-## Choose a backend (recommended: Browser Use v2 agent)
+## Single flow vs. fan-out (decide this first)
 
-The test can run two ways — pick one (ask the user if it's unclear; **recommend v2** for real QA):
+**Scale the approach to the ask:**
 
-- **Browser Use v2 cloud agent — recommended, *built for QA*.** Hand the whole test to an autonomous Browser Use agent: it has a **judge** (pass/fail evaluation against expected behavior) and **structured output** (forces the 1–5 score schema), runs server-side, parallelizes, and returns step-by-step evidence with screenshots. **It spends Browser Use credits** (~$0.01/task + ~$0.006/step + $0.02/hr browser, from the account's monthly allowance). Flow: **`references/browser-use-v2.md`**.
-- **Claude Code subagent — no task credits, full control.** You (or a spawned subagent) drive **browser-harness** on a cloud browser yourself, following the field-tested loop in **`references/methodology.md`**. Spends no Browser Use *task* credits — just cloud-browser time and your agent's own usage.
+- **Testing one flow / one thing?** Don't bother with subagents — **drive `browser-harness` directly** yourself, following `references/methodology.md`. That's the right, lowest-overhead tool for a single test, and it's how the rest of this skill works.
+- **Testing many flows / a lot at once?** **Fan out to subagents — one per flow — so they run in parallel.** Here the user has a choice of subagent type (ask if unclear; **recommend v2**):
+  - **Browser Use v2 cloud agents — recommended.** Each flow becomes an autonomous v2 task with **`judge`** (pass/fail) + **`structuredOutput`** (1–5 score), running server-side and **in parallel**, returning step-by-step screenshot evidence. **Spends Browser Use credits** (~$0.01/task + ~$0.006/step + $0.02/hr browser). Per-task flow + how to fan out: `references/browser-use-v2.md`.
+  - **Your harness's built-in subagents** — spawn Claude Code subagents (the Agent tool), each driving `browser-harness` through `references/methodology.md`. No Browser Use *task* credits; uses your agent's own usage.
 
-Default to **v2** (the judge + structured score is the right tool for scoring); fall back to the Claude subagent when the user would rather not spend credits or wants you driving directly. **Either way, `browser-harness` is required** — it's the key store for v2, and the test driver + localhost tunnel for the Claude path.
+Rule of thumb: **one flow → browser-harness directly; many flows → subagents (v2 recommended).** Either way `browser-harness` is required — as the direct driver, the subagent driver, the v2 key store, and the localhost tunnel.
 
 ## Dependency: browser-harness (required)
 
@@ -43,10 +45,12 @@ Do not attempt to QA with anything other than browser-harness + a cloud browser.
 ## Procedure
 
 1. **Confirm the target is reachable** (`curl -s -o /dev/null -w "%{http_code}" <url>`), and identify what the app is (title, README) so you can frame a sensible test task.
-2. **Run the test with the chosen backend:**
-   - **v2 agent** → read **`references/browser-use-v2.md`** and follow it: create the task (with `judge` + a 1–5 `structuredOutput` schema), poll to completion, and read the verdict from `judgeVerdict` + the structured score. A `localhost` target still needs a tunnel (the cloud agent can't reach localhost) — tunnel it per `methodology.md` and pass the public URL as `startUrl`.
-   - **Claude subagent** → read **`references/methodology.md`** and follow it exactly: get/resolve the key, tunnel localhost, drive the cloud browser through the test loop with the field-tested gotchas (host-header rewrite, proxy-off, per-tab interstitial header, CORS-pinned APIs).
-3. **Tear everything down** (stop the cloud browser so it stops billing; kill the tunnel). The v2 agent's one-off session auto-closes.
-4. **Return the verdict**: lead with `Score: N/5`, then task, result, what worked, issues (tagged), edge cases tried, and evidence — using the rubric and output format in `references/methodology.md` (both backends report the same way; for v2, the score/verdict/evidence come from the agent's structured output + `steps`).
+2. **Run it, scaled to the ask** (see "Single flow vs. fan-out" above):
+   - **One flow** → drive **browser-harness directly** per `references/methodology.md`: resolve the key, tunnel localhost, and run the test loop with the field-tested gotchas (host-header rewrite, proxy-off, per-tab interstitial header, CORS-pinned APIs).
+   - **Many flows → fan out, one subagent per flow:**
+     - **v2 agents (recommended)** → per `references/browser-use-v2.md`, create one task per flow (each with `judge` + a 1–5 `structuredOutput` schema), poll them all, and collect the verdicts. A `localhost` target still needs a tunnel (the cloud agent can't reach localhost) — tunnel it and pass the public `startUrl`.
+     - **Claude subagents** → spawn one Agent per flow, each following `references/methodology.md` on browser-harness.
+3. **Tear down** what you started — only the **one-flow / Claude** paths have anything to stop (cloud browser + tunnel). A v2 task on a public URL has nothing to tear down (its one-off session auto-closes).
+4. **Return the verdict**: lead with `Score: N/5`, then task, result, what worked, issues (tagged), edge cases, and evidence — per the rubric and output format in `references/methodology.md`. **Fanning out?** Give a per-flow `Score: N/5` line and an **overall score that reflects the weakest critical path** (don't average a broken flow up because others passed).
 
 Scale effort to the ask: a quick "does X work?" is a few interactions and one score; "thoroughly QA this" warrants more flows and edge cases. Keep the verdict honest, specific, and reproducible.

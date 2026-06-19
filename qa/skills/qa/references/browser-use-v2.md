@@ -128,6 +128,38 @@ Evidence: <key steps[].screenshotUrl links>
 Cost: $X.XX (Browser Use v2 agent, <n> steps)
 ```
 
+## Fan out: many flows in parallel
+
+The whole point of v2 subagents is parallel coverage. To test several flows at once, **create all
+the tasks first** (each `POST /tasks` returns immediately with an `id`), then **poll them all** —
+they run concurrently in Browser Use cloud:
+
+```python
+flows = [
+    {"task": "Test signup: …", "startUrl": URL, "judgeGroundTruth": "Account created, lands on dashboard."},
+    {"task": "Test checkout: …", "startUrl": URL, "judgeGroundTruth": "Order confirmation shown."},
+    {"task": "Test search + filters: …", "startUrl": URL, "judgeGroundTruth": "Filtered results update."},
+]
+ids = []
+for f in flows:
+    _, c = call("POST", "/tasks", {**f, "judge": True, "structuredOutput": SCORE_SCHEMA, "maxSteps": 50})
+    ids.append((f["task"][:40], c["id"]))
+
+results = {}
+while len(results) < len(ids):
+    for label, tid in ids:
+        if tid in results: continue
+        _, t = call("GET", "/tasks/" + tid)
+        if t["status"] in ("finished", "failed", "stopped"):
+            results[tid] = {"label": label, "verdict": t.get("judgeVerdict"),
+                            "score": t.get("output"), "cost": t.get("cost")}
+    time.sleep(5)
+# one Score: N/5 per flow; overall = the weakest critical path (don't average a broken flow up)
+```
+
+Watch the **concurrent-session cap** (Free = 3): creating more than the cap at once yields `429` —
+batch the creates to stay under it.
+
 ## Gotchas
 
 - **`structuredOutput` is a *string*** — pass `json.dumps(schema)`, not the schema object.
