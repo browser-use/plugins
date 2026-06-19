@@ -104,9 +104,13 @@ PY
 
 Report exactly as `methodology.md`'s output format, sourced from the agent's result:
 
-- **`Score: N/5`** ← the `score` field of the structured `output`.
-- **Result / pass-fail** ← `judgeVerdict` (true = met the ground truth, false = didn't); the agent's
-  `isSuccess` is its self-report and is less reliable — prefer `judgeVerdict`.
+- **`Score: N/5`** ← the `score` field of the structured `output` — **but `judgeVerdict` overrides it.**
+  The structured `score` is the agent's *self-report* and can be wrong (an agent will happily score a
+  blank page 5/5). **If `judgeVerdict` is `False`, the flow FAILED regardless of the self-score** — cap
+  it at ≤2 and lead with the judge's `failure_reason`. (Real example: an agent self-scored x.ai/pricing
+  5/5 "fully functional"; the judge saw the page rendered blank and returned `false`. Trust the judge.)
+- **Result / pass-fail** ← `judgeVerdict` (true = met the ground truth, false = didn't). The agent's
+  `score`/`isSuccess` are self-reports and are less reliable — **`judgeVerdict` is authoritative.**
 - **What worked / issues** ← the structured `worked` / `issues` arrays, cross-checked against
   `judgement` (the judge's reasoning).
 - **Evidence** ← `steps[]`: each has `url`, `screenshotUrl`, `actions` (and sometimes `nextGoal` —
@@ -151,10 +155,15 @@ while len(results) < len(ids):
         if tid in results: continue
         _, t = call("GET", "/tasks/" + tid)
         if t["status"] in ("finished", "failed", "stopped"):
-            results[tid] = {"label": label, "verdict": t.get("judgeVerdict"),
-                            "score": t.get("output"), "cost": t.get("cost")}
+            self_score = (json.loads(t["output"]).get("score") if t.get("output") else None)
+            passed = t.get("judgeVerdict") is True          # JUDGE is authoritative, not the self-score
+            results[tid] = {"label": label, "passed": passed, "self_score": self_score,
+                            "score": (self_score if passed else min(self_score or 2, 2)),  # judge=False caps it
+                            "cost": t.get("cost")}
     time.sleep(5)
-# one Score: N/5 per flow; overall = the weakest critical path (don't average a broken flow up)
+# Per flow: PASS only if judgeVerdict is True. A flow where the agent self-scored high but
+# judgeVerdict is False is a *caught failure* — flag it and score it low.
+# Overall = the weakest flow (min of the judge-corrected scores) — never average a failed flow up.
 ```
 
 Watch the **concurrent-session cap** (Free = 3): creating more than the cap at once yields `429` —
