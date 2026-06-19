@@ -75,7 +75,8 @@ created = call("POST", "/tasks", {
     "judge": True,
     "judgeGroundTruth": "SUCCESS LOOKS LIKE — e.g. 'An order-confirmation / thank-you page is shown.'",
     "structuredOutput": SCORE_SCHEMA,
-    "maxSteps": 60,
+    "maxSteps": 50,   # a CEILING, not a target — the agent stops when done, so this doesn't inflate cost;
+                      # 50 gives room for a multi-step flow. Raise for long flows; cost = steps actually taken.
     # optional: "llm": "browser-use-2.0", "vision": True,
     #           "sessionSettings": {"proxyCountryCode": "us", "enableRecording": True}
 })
@@ -108,9 +109,24 @@ Report exactly as `methodology.md`'s output format, sourced from the agent's res
   `isSuccess` is its self-report and is less reliable — prefer `judgeVerdict`.
 - **What worked / issues** ← the structured `worked` / `issues` arrays, cross-checked against
   `judgement` (the judge's reasoning).
-- **Evidence** ← `steps[]`: each has `url`, `screenshotUrl`, `actions`, `nextGoal`. Cite the
-  screenshot URLs of the key moments.
+- **Evidence** ← `steps[]`: each has `url`, `screenshotUrl`, `actions` (and sometimes `nextGoal` —
+  may be empty). Cite the `screenshotUrl`s of the key moments.
 - **Cost** ← surface `cost` so the user sees what the run spent.
+
+Report it in this format (the same one the Claude backend uses — self-contained here so you don't
+need to open `methodology.md`):
+
+```
+Score: N/5
+Task: <what you asked the agent to verify>
+Result: <pass/fail from judgeVerdict + one line>
+What worked:
+- <from the structured `worked` array / judgement>
+Issues:
+- [tag] <from `issues` / judgement; empty if none>
+Evidence: <key steps[].screenshotUrl links>
+Cost: $X.XX (Browser Use v2 agent, <n> steps)
+```
 
 ## Gotchas
 
@@ -120,4 +136,6 @@ Report exactly as `methodology.md`'s output format, sourced from the agent's res
   any "You are about to visit" interstitial.
 - **`429 TooManyConcurrentActiveSessionsError`** — the account hit its concurrent-session cap
   (Free = 3); wait or stop other sessions.
-- **`maxSteps`** caps the run — bump it for multi-step flows, but it also caps cost.
+- **`maxSteps` is a safety ceiling, not a cost lever** — the agent stops when the task is complete, so the cap doesn't drive cost (this run capped at 15 but used 5 steps). Keep ~50 for headroom; raise for long flows.
+- **Teardown is a no-op for the v2 path on a public URL** — the one-off session auto-closes and there's no tunnel to kill. (Only the Claude/localhost path needs teardown.)
+- **Verify the key resolves before the billable create** — the snippet's `assert KEY` does this; if it's missing, resolve it per `methodology.md` step 0 *before* calling `POST /tasks`.
