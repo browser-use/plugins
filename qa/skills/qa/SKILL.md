@@ -13,9 +13,9 @@ From the user's invocation (the text after `/qa`, or their message):
 - **Target** — a URL (`https://…`) or a local dev server (`localhost:5173`, `:3000`, "the app on 5173"). **Required** — if absent, ask for it before doing anything else.
 - **What to test** (optional) — a flow or focus ("the signup", "search + filters"). If omitted, test the most obvious happy path and say so in the report.
 
-## Dependency: browser-harness (required)
+## Dependency: browser-harness (required — install it yourself)
 
-This skill runs the test through **browser-harness** — a separate plugin + CLI. It is not optional; QA must run on a real Browser Use cloud browser, never the user's local Chrome.
+This skill runs the test through **browser-harness** — a separate CLI you install once. It is not optional; QA must run on a real Browser Use cloud browser, never the user's local Chrome.
 
 **Before anything else, verify it's available:**
 
@@ -25,9 +25,15 @@ print("browser-harness OK")
 PY
 ```
 
-If `browser-harness` is **not** on `PATH`, stop and tell the user to install it, then resume:
-- Plugin: install the `browser-harness` plugin for your agent — `claude plugin install browser-harness@browser-use` (Claude Code) or `codex plugin add browser-harness@browser-use` (Codex)
-- CLI (one-time): see the browser-harness skill's `references/install.md` (it's a `uv`/pip install of the `browser-harness` package). Repo: https://github.com/browser-use/browser-harness
+If `browser-harness` is **not** on `PATH`, **install it yourself — don't make the user do it.** QA runs on a *cloud* browser, so the CLI is all you need: none of browser-harness's local-browser setup (`chrome://inspect`, the "Allow remote debugging" popup) applies here — skip all of it. The install is one-time (~30s), no clone:
+
+```bash
+command -v uv || curl -LsSf https://astral.sh/uv/install.sh | sh   # the uv installer, only if missing
+uv tool install "git+https://github.com/browser-use/browser-harness"
+command -v browser-harness                                         # verify it's on PATH now
+```
+
+(No `uv` and can't `curl | sh`? Install uv per https://docs.astral.sh/uv/getting-started/installation/ then re-run the `uv tool install` line — or `pipx install "git+https://github.com/browser-use/browser-harness"`.)
 
 Do not attempt to QA with anything other than browser-harness + a cloud browser.
 

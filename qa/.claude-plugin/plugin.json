@@ -1,7 +1,7 @@
 {
   "name": "qa",
-  "version": "0.1.0",
-  "description": "QA-test any website or app with a real browser and return a 1-5 score with evidence. Drives a Browser Use cloud browser (tunnels localhost automatically). Requires the browser-harness plugin + CLI.",
+  "version": "0.1.1",
+  "description": "QA-test any website or app with a real browser and return a 1-5 score with evidence. Drives a Browser Use cloud browser (tunnels localhost automatically). Requires the browser-harness CLI (the skill installs it itself if missing).",
   "author": {
     "name": "Browser Use",
     "url": "https://browser-use.com"
