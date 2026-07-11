@@ -29,11 +29,12 @@ If `browser-harness` is **not** on `PATH`, **install it yourself — don't make 
 
 ```bash
 command -v uv || curl -LsSf https://astral.sh/uv/install.sh | sh   # the uv installer, only if missing
-uv tool install "git+https://github.com/browser-use/browser-harness"
+export PATH="$HOME/.local/bin:$PATH"                               # uv and its tool shims land here; the installer doesn't update the current shell's PATH
+uv tool install --python 3.12 --upgrade browser-harness            # latest stable release from PyPI
 command -v browser-harness                                         # verify it's on PATH now
 ```
 
-(No `uv` and can't `curl | sh`? Install uv per https://docs.astral.sh/uv/getting-started/installation/ then re-run the `uv tool install` line — or `pipx install "git+https://github.com/browser-use/browser-harness"`.)
+(No `uv` and can't `curl | sh`? Install uv per https://docs.astral.sh/uv/getting-started/installation/ then re-run the `uv tool install` line — or `pipx install browser-harness`.)
 
 Do not attempt to QA with anything other than browser-harness + a cloud browser.
 

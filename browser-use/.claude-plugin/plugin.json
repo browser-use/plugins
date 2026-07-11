@@ -1,7 +1,7 @@
 {
   "name": "browser-use",
   "version": "0.2.0",
-  "description": "Direct browser control via CDP with the Browser Use CLI 3.0. Claude drives your real Chrome — or a Browser Use cloud browser — through short Python snippets: coordinate clicks, screenshots, navigation, DOM extraction, raw CDP. Ships the browser-use skill from the browser-use library; the CLI itself is a one-time install (uv tool install --python 3.12 browser-use).",
+  "description": "Direct browser control via CDP with the Browser Use CLI 3.0. Claude drives your real Chrome — or a Browser Use cloud browser — through short Python snippets: coordinate clicks, screenshots, navigation, DOM extraction, raw CDP. Ships the browser-use skill from the browser-use library; the CLI itself is a one-time install (uv tool install --python 3.12 --upgrade browser-use).",
   "author": {
     "name": "Browser Use",
     "url": "https://browser-use.com"
