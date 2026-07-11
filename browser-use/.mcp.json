@@ -1,0 +1,6 @@
+{
+  "browser-use": {
+    "command": "uvx",
+    "args": ["--python", "3.12", "browser-use@latest", "--cli-mcp"]
+  }
+}

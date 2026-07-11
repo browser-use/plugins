@@ -1,13 +1,9 @@
 {
   "name": "browser-use",
-  "version": "0.3.0",
   "description": "Give Claude a real browser — your Chrome or a Browser Use Cloud browser. Use it whenever a task involves a website or web app: browsing, scraping and data extraction, filling forms, testing sites, taking screenshots, automating web workflows.",
   "author": {
     "name": "Browser Use",
     "url": "https://browser-use.com"
   },
-  "homepage": "https://github.com/browser-use/browser-use",
-  "repository": "https://github.com/browser-use/plugins",
-  "license": "MIT",
-  "keywords": ["browser", "browser-use", "cli", "cdp", "chrome", "automation", "scraping", "screenshot", "cloud-browser", "web-agent"]
+  "homepage": "https://github.com/browser-use/browser-use"
 }
