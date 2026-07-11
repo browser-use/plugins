@@ -1,20 +1,26 @@
-# browser-use (Browser Use Cloud agent)
+# browser-use (Browser Use CLI 3.0)
 
-Give Claude Code a **hosted Browser Use cloud agent**. Once installed, Claude can spin up a
-stealth cloud browser and run **long-horizon web tasks** — browse, extract data, fill forms,
-log in, solve CAPTCHAs — driven by the `browser-use-2.0` agent.
+Give Claude Code **direct browser control via CDP** through the
+[Browser Use CLI 3.0](https://github.com/browser-use/browser-use#-cli). Claude drives your
+real Chrome — or a Browser Use cloud browser — with short Python snippets: coordinate clicks,
+screenshots, navigation, DOM extraction, raw CDP.
 
-No local Chrome, no CLI. It connects to the hosted Browser Use MCP server, so the browser runs
-entirely on [Browser Use Cloud](https://browser-use.com) with anti-detection, residential
-proxies, and automatic CAPTCHA solving built in.
+This plugin ships the `browser-use` skill from the
+[browser-use library](https://github.com/browser-use/browser-use/blob/main/skills/browser-use/SKILL.md)
+(the source of truth — the skill here is a verbatim copy of `skills/browser-use/SKILL.md` on `main`).
+The CLI itself is a separate one-time install.
 
-## Tools this adds
+## How it works
 
-- **`browser_task`** — spin up a cloud browser and run an agent task to completion
-- **`monitor_task`** — track a running task's status + step-by-step agent reasoning
-- **`list_browser_profiles`** — reuse persistent logins (cookies/sessions) across runs
-- **`list_skills` / `execute_skill`** — run fast pre-built workflows without a full browser
-- **`get_cookies`** — pull profile cookies for authenticated skills
+```bash
+browser-use <<'PY'
+new_tab("https://example.com")
+print(page_info())
+PY
+```
+
+The CLI lets Claude control the browser via Python and manages the browser (a background
+daemon attached to Chrome's CDP endpoint) for you.
 
 ## Setup
 
@@ -23,21 +29,21 @@ proxies, and automatic CAPTCHA solving built in.
    claude plugin marketplace add browser-use/plugins
    claude plugin install browser-use@browser-use
    ```
-2. Set your API key (get a free one at
-   [cloud.browser-use.com](https://cloud.browser-use.com/settings?tab=api-keys&new=1)):
+2. Install the CLI (one-time):
    ```bash
-   export BROWSER_USE_API_KEY=bu_...
+   uv tool install --python 3.12 --upgrade browser-use
    ```
-3. Ask Claude to do something on the web, e.g.
-   *"use browser-use to find the top 5 Show HN posts today and summarize them."*
+3. Allow Chrome remote debugging when prompted — the harness opens
+   `chrome://inspect/#remote-debugging`; tick **"Allow remote debugging for this browser
+   instance"** and click **Allow** on the popup.
+4. Ask Claude to do something on the web, e.g.
+   *"open Hacker News and summarize the top 5 Show HN posts."*
 
-## No key yet?
+If anything fails, `browser-use --doctor` diagnoses the connection; setup details live in the
+[install docs](https://github.com/browser-use/browser-harness/blob/main/install.md).
 
-Your agent can provision a free account itself — no signup form:
+## Cloud browsers (optional)
 
-1. `POST https://api.browser-use.com/cloud/signup` → returns a challenge
-2. solve the challenge, `POST https://api.browser-use.com/cloud/signup/verify` → returns a `bu_` key
-3. set it as `BROWSER_USE_API_KEY`
-
-See the [stealth browsers](https://browser-use.com/stealth-browsers) page and
-[docs](https://docs.browser-use.com/cloud/guides/mcp-server) for details.
+Local Chrome needs no API key. For headless servers, parallel sub-agents, or isolated work,
+the skill can start a [Browser Use cloud](https://cloud.browser-use.com) browser instead —
+authenticate once with `browser-use auth login` (or set `BROWSER_USE_API_KEY`).

@@ -5,23 +5,15 @@
   "plugins": [
     {
       "name": "browser-use",
-      "description": "Give Claude Code a hosted Browser Use cloud agent — spin up a stealth cloud browser and run long-horizon web tasks (browse, extract, fill forms, log in, solve CAPTCHAs) with the browser-use-2.0 agent. No local Chrome or CLI; just set BROWSER_USE_API_KEY (free at cloud.browser-use.com). Adds the browser_task / monitor_task / skills tools via the hosted MCP server.",
+      "description": "Direct browser control via CDP with the Browser Use CLI 3.0 — Claude drives your real Chrome or a Browser Use cloud browser through short Python snippets: coordinate clicks, screenshots, navigation, DOM extraction, raw CDP. Ships the browser-use skill from the browser-use library; the CLI is a one-time install (uv tool install --python 3.12 --upgrade browser-use).",
       "category": "automation",
       "source": "./browser-use",
       "homepage": "https://github.com/browser-use/plugins/tree/main/browser-use",
-      "keywords": ["browser", "browser-use", "cloud-browser", "agent", "automation", "stealth", "mcp", "web-agent", "scraping", "captcha"]
-    },
-    {
-      "name": "browser-harness",
-      "description": "Direct CDP browser control for coding agents: coordinate clicks, screenshots, a persistent Python session, and bulk HTTP — driving the user's real Chrome or a Browser Use cloud browser. Ships skills only; the browser-harness CLI is a one-time install prerequisite.",
-      "category": "automation",
-      "source": { "source": "url", "url": "https://github.com/browser-use/browser-harness.git" },
-      "homepage": "https://github.com/browser-use/browser-harness",
-      "keywords": ["browser", "browser-use", "automation", "cdp", "chrome", "scraping", "screenshot"]
+      "keywords": ["browser", "browser-use", "cli", "cdp", "chrome", "automation", "scraping", "screenshot", "cloud-browser", "web-agent"]
     },
     {
       "name": "qa",
-      "description": "QA-test a website or app and return a 1-5 quality score with evidence. Drives a Browser Use cloud browser and tunnels localhost automatically. Run as /qa <url-or-localhost-port>. Requires the browser-harness plugin + CLI.",
+      "description": "QA-test a website or app and return a 1-5 quality score with evidence. Drives a Browser Use cloud browser and tunnels localhost automatically. Run as /qa <url-or-localhost-port>. Requires the browser-harness CLI (the skill installs it itself if missing).",
       "category": "automation",
       "source": "./qa",
       "homepage": "https://github.com/browser-use/plugins/tree/main/qa",
