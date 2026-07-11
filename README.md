@@ -2,25 +2,23 @@
 
 The [Browser Use](https://browser-use.com) plugin marketplace for **Claude Code**.
 
-This repo is a catalog of Browser Use plugins for Claude Code. Plugins are colocated here as subdirectories; where a plugin wraps an upstream skill, the source of truth is noted below. Support for other hosts (Grok, Codex, …) will be added later.
+This repo is a catalog of Browser Use plugins for Claude Code. The plugins are self-sufficient: they install the CLI they run through on first use. Support for other hosts (Grok, Codex, …) will be added later.
 
 ## Plugins
 
-| Plugin | What it does | Source of truth |
+| Plugin | What it does | How it works |
 |---|---|---|
-| **browser-use** | Direct browser control via CDP with the [Browser Use CLI 3.0](https://github.com/browser-use/browser-use#-cli) — Claude drives your real Chrome or a Browser Use Cloud Browser through short Python snippets: coordinate clicks, screenshots, navigation, DOM extraction, raw CDP. | [`browser-use/`](./browser-use) (skill mirrored verbatim from [browser-use/browser-use `skills/browser-use`](https://github.com/browser-use/browser-use/tree/main/skills/browser-use)) |
-| **qa** | QA-test a website or app and return a 1–5 quality score with evidence. Drives a Browser Use cloud browser and tunnels localhost automatically. Run as `/qa <url-or-localhost-port>`. | [`qa/`](./qa) (colocated) |
-
-**browser-use** ships the skill; the `browser-use` CLI is a one-time install (`uv tool install --python 3.12 --upgrade browser-use`) documented inside the plugin. **qa** runs through the `browser-harness` CLI and installs it itself if missing.
+| **browser-use** | Give Claude a real browser — your Chrome or a Browser Use Cloud browser. Use it whenever a task involves a website or web app: browsing, scraping and data extraction, filling forms, testing sites, taking screenshots, automating web workflows. | Thin wrapper around the [Browser Use CLI 3.0](https://github.com/browser-use/browser-use#-cli): installs the CLI if missing, then follows `browser-use skill` — the CLI's own instructions, version-matched to the installed binary, so nothing here drifts from upstream. |
+| **qa** | QA-test a website or app and return a 1–5 quality score with evidence. Drives a Browser Use cloud browser and tunnels localhost automatically. Run as `/qa <url-or-localhost-port>`. | Colocated skill ([`qa/`](./qa)); runs through the `browser-harness` CLI and installs it itself if missing. |
 
 ## Install
 
 ```bash
 claude plugin marketplace add browser-use/plugins
-claude plugin install browser-use@browser-use      # CDP browser control (one-time CLI install)
+claude plugin install browser-use@browser-use      # browser control (CLI self-installs on first use)
 claude plugin install qa@browser-use               # adds /qa
 ```
 
 ## Layout
 
-`.claude-plugin/marketplace.json` — the Claude Code catalog. Each entry is a colocated plugin (`source: ./<dir>`) in a subdirectory of this repo.
+`.claude-plugin/marketplace.json` — the Claude Code catalog. Each plugin is a colocated subdirectory (`source: ./<dir>`).
