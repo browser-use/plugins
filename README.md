@@ -32,4 +32,4 @@ Kimi Code (inside the TUI):
 
 `.claude-plugin/marketplace.json` — the Claude Code catalog. Each plugin is a colocated subdirectory (`source: ./<dir>`).
 
-`.kimi-plugin/plugin.json` — the Kimi Code plugin manifest (Kimi installs one plugin per repo, resolved from the repo root). Declares the same `uvx browser-use@latest --cli-mcp` MCP server plus a skill at [`.kimi-plugin/skills/browser-use/`](./.kimi-plugin/skills/browser-use).
+`.kimi-plugin/plugin.json` — the Kimi Code plugin manifest (Kimi installs one plugin per repo, resolved from the repo root). Declares the same `uvx --python 3.12 browser-use@latest --cli-mcp` MCP server plus a skill at [`.kimi-plugin/skills/browser-use/`](./.kimi-plugin/skills/browser-use).
