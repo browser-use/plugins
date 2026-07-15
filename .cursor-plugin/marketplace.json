@@ -1,0 +1,17 @@
+{
+	"name": "browser-use",
+	"owner": {
+		"name": "Browser Use",
+		"email": "support@browser-use.com"
+	},
+	"metadata": {
+		"description": "Browser Use plugin for Cursor — real browser control via CDP."
+	},
+	"plugins": [
+		{
+			"name": "browser-use",
+			"source": "cursor",
+			"description": "Give Cursor a real browser — your Chrome or a Browser Use Cloud browser."
+		}
+	]
+}
