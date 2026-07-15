@@ -1,8 +1,8 @@
 # Browser Use plugins
 
-The [Browser Use](https://browser-use.com) plugin marketplace for **Claude Code** and **Kimi Code**.
+The [Browser Use](https://browser-use.com) plugin marketplace for **Claude Code**, **Cursor**, and **Kimi Code**.
 
-This repo is a catalog of Browser Use plugins for Claude Code, and doubles as the Browser Use plugin for Kimi Code CLI (see [`.kimi-plugin/`](./.kimi-plugin)). The plugins are self-sufficient: they install the CLI they run through on first use. Support for other hosts (Grok, Codex, …) will be added later.
+This repo is a catalog of Browser Use plugins for Claude Code, and doubles as the Browser Use plugin for Cursor (see [`cursor/`](./cursor)) and for Kimi Code CLI (see [`.kimi-plugin/`](./.kimi-plugin)). The plugins are self-sufficient: they install the CLI they run through on first use. Support for other hosts (Grok, Codex, …) will be added later.
 
 ## Plugins
 
@@ -21,6 +21,8 @@ claude plugin install browser-use@browser-use      # browser control (MCP server
 claude plugin install qa@browser-use               # adds /qa
 ```
 
+Cursor: search for **Browser Use** in the [Cursor Marketplace](https://cursor.com/marketplace) (or symlink [`cursor/`](./cursor) into `~/.cursor/plugins/local/` for local development).
+
 Kimi Code (inside the TUI):
 
 ```text
@@ -31,5 +33,7 @@ Kimi Code (inside the TUI):
 ## Layout
 
 `.claude-plugin/marketplace.json` — the Claude Code catalog. Each plugin is a colocated subdirectory (`source: ./<dir>`).
+
+`.cursor-plugin/marketplace.json` — the Cursor catalog, pointing at the colocated [`cursor/`](./cursor) plugin (same MCP server plus a skill at [`cursor/skills/browser-use/`](./cursor/skills/browser-use)). Submitted to the [Cursor Marketplace](https://cursor.com/marketplace) via cursor.com/marketplace/publish.
 
 `.kimi-plugin/plugin.json` — the Kimi Code plugin manifest (Kimi installs one plugin per repo, resolved from the repo root). Declares the same `uvx --python 3.12 browser-use@latest --cli-mcp` MCP server plus a skill at [`.kimi-plugin/skills/browser-use/`](./.kimi-plugin/skills/browser-use).

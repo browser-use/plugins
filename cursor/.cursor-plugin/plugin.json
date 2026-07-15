@@ -1,0 +1,19 @@
+{
+	"name": "browser-use",
+	"displayName": "Browser Use",
+	"version": "0.1.0",
+	"description": "Give Cursor a real browser — your Chrome or a Browser Use Cloud browser. Use it whenever a task involves a website or web app: browsing, scraping and data extraction, filling forms, testing sites, taking screenshots, automating web workflows.",
+	"author": {
+		"name": "Browser Use",
+		"email": "support@browser-use.com"
+	},
+	"homepage": "https://browser-use.com",
+	"repository": "https://github.com/browser-use/plugins",
+	"license": "MIT",
+	"keywords": ["browser", "browser-use", "cli", "cdp", "chrome", "automation", "scraping", "screenshot", "cloud-browser", "web-agent"],
+	"category": "developer-tools",
+	"tags": ["browser", "automation", "testing"],
+	"logo": "./assets/logo.png",
+	"skills": "./skills/",
+	"mcpServers": "./mcp.json"
+}
