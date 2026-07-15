@@ -1,0 +1,39 @@
+{
+	"name": "browser-use",
+	"version": "0.1.0",
+	"description": "Give Kimi a real browser — your Chrome or a Browser Use Cloud browser. Use it whenever a task involves a website or web app: browsing, scraping and data extraction, filling forms, testing sites, taking screenshots, automating web workflows.",
+	"keywords": [
+		"browser",
+		"browser-use",
+		"cli",
+		"cdp",
+		"chrome",
+		"automation",
+		"scraping",
+		"screenshot",
+		"cloud-browser",
+		"web-agent"
+	],
+	"homepage": "https://github.com/browser-use/plugins",
+	"license": "MIT",
+	"skills": "./.kimi-plugin/skills/",
+	"skillInstructions": "If the browser-use MCP server from this plugin is connected, prefer its mcp__browser-use__browser_exec and mcp__browser-use__browser_screenshot tools over invoking the browser-use CLI in a shell. Both expose the same helper namespace.",
+	"mcpServers": {
+		"browser-use": {
+			"command": "uvx",
+			"args": [
+				"--python",
+				"3.12",
+				"browser-use@latest",
+				"--cli-mcp"
+			]
+		}
+	},
+	"interface": {
+		"displayName": "Browser Use",
+		"shortDescription": "Real browser control — your Chrome or a Browser Use Cloud browser",
+		"longDescription": "Registers the Browser Use MCP server (browser_exec + browser_screenshot, self-installing via uv) and a skill that teaches direct browser-use CLI usage. Drive real Chrome over CDP: navigate, click, type, extract, screenshot — or spin up isolated Browser Use Cloud browsers for stealth and parallel work.",
+		"developerName": "Browser Use",
+		"websiteURL": "https://browser-use.com"
+	}
+}
