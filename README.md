@@ -1,8 +1,8 @@
 # Browser Use plugins
 
-The [Browser Use](https://browser-use.com) plugin marketplace for **Claude Code**.
+The [Browser Use](https://browser-use.com) plugin marketplace for **Claude Code** and **Kimi Code**.
 
-This repo is a catalog of Browser Use plugins for Claude Code. The plugins are self-sufficient: they install the CLI they run through on first use. Support for other hosts (Grok, Codex, …) will be added later.
+This repo is a catalog of Browser Use plugins for Claude Code, and doubles as the Browser Use plugin for Kimi Code CLI (see [`.kimi-plugin/`](./.kimi-plugin)). The plugins are self-sufficient: they install the CLI they run through on first use. Support for other hosts (Grok, Codex, …) will be added later.
 
 ## Plugins
 
@@ -13,12 +13,23 @@ This repo is a catalog of Browser Use plugins for Claude Code. The plugins are s
 
 ## Install
 
+Claude Code:
+
 ```bash
 claude plugin marketplace add browser-use/plugins
 claude plugin install browser-use@browser-use      # browser control (MCP server, self-installs via uvx)
 claude plugin install qa@browser-use               # adds /qa
 ```
 
+Kimi Code (inside the TUI):
+
+```text
+/plugins install https://github.com/browser-use/plugins
+/reload
+```
+
 ## Layout
 
 `.claude-plugin/marketplace.json` — the Claude Code catalog. Each plugin is a colocated subdirectory (`source: ./<dir>`).
+
+`.kimi-plugin/plugin.json` — the Kimi Code plugin manifest (Kimi installs one plugin per repo, resolved from the repo root). Declares the same `uvx browser-use@latest --cli-mcp` MCP server plus a skill at [`.kimi-plugin/skills/browser-use/`](./.kimi-plugin/skills/browser-use).
