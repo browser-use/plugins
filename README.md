@@ -1,8 +1,8 @@
 # Browser Use plugins
 
-The [Browser Use](https://browser-use.com) plugin marketplace for **Claude Code**, **Cursor**, and **Kimi Code**.
+The [Browser Use](https://browser-use.com) plugin marketplace for **Claude Code**, **Grok Build**, **Cursor**, and **Kimi Code**.
 
-This repo is a catalog of Browser Use plugins for Claude Code, and doubles as the Browser Use plugin for Cursor (see [`cursor/`](./cursor)) and for Kimi Code CLI (see [`.kimi-plugin/`](./.kimi-plugin)). The plugins are self-sufficient: they install the CLI they run through on first use. Support for other hosts (Grok, Codex, …) will be added later.
+This repo is a catalog of Browser Use plugins for Claude Code and Grok Build, and doubles as the Browser Use plugin for Cursor (see [`cursor/`](./cursor)) and for Kimi Code CLI (see [`.kimi-plugin/`](./.kimi-plugin)). The plugins are self-sufficient: they install the CLI they run through on first use. Support for other hosts (Codex, …) will be added later.
 
 ## Plugins
 
@@ -21,6 +21,15 @@ claude plugin install browser-use@browser-use      # browser control (MCP server
 claude plugin install qa@browser-use               # adds /qa
 ```
 
+Grok Build:
+
+```bash
+grok plugin marketplace add browser-use/plugins
+grok plugin install browser-use@browser-use       # Browser Use (MCP server + skill)
+```
+
+Or open `/plugins` in the TUI and install from the Marketplace tab.
+
 Cursor: search for **Browser Use** in the [Cursor Marketplace](https://cursor.com/marketplace) (or symlink [`cursor/`](./cursor) into `~/.cursor/plugins/local/` for local development).
 
 Kimi Code (inside the TUI):
@@ -33,6 +42,8 @@ Kimi Code (inside the TUI):
 ## Layout
 
 `.claude-plugin/marketplace.json` — the Claude Code catalog. Each plugin is a colocated subdirectory (`source: ./<dir>`).
+
+`.grok-plugin/marketplace.json` — the Grok Build catalog. Lists the colocated [`grok/`](./grok) plugin (MCP server plus a skill at [`grok/skills/browser-use/`](./grok/skills/browser-use)). Grok is kept in its own directory rather than sharing [`browser-use/`](./browser-use) because it needs the standard `{"mcpServers": {…}}` wrapper in `.mcp.json` and the `when-to-use` frontmatter key, neither of which matches the Claude plugin as written. Submitted to the [xAI plugin marketplace](https://github.com/xai-org/plugin-marketplace) as a url source pinned to a commit SHA, with `source.path` set to `grok`.
 
 `.cursor-plugin/marketplace.json` — the Cursor catalog, pointing at the colocated [`cursor/`](./cursor) plugin (same MCP server plus a skill at [`cursor/skills/browser-use/`](./cursor/skills/browser-use)). Submitted to the [Cursor Marketplace](https://cursor.com/marketplace) via cursor.com/marketplace/publish.
 

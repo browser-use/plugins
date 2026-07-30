@@ -1,0 +1,16 @@
+{
+  "name": "browser-use",
+  "description": "Browser Use plugin for Grok Build.",
+  "owner": { "name": "Browser Use", "url": "https://browser-use.com" },
+  "plugins": [
+    {
+      "name": "browser-use",
+      "description": "Give Grok a real browser — your Chrome or an isolated Browser Use Cloud browser. Use it whenever a task involves a website or web app: browsing, scraping and data extraction, filling forms, testing sites, taking screenshots, automating web workflows.",
+      "category": "automation",
+      "source": "./grok",
+      "homepage": "https://github.com/browser-use/plugins/tree/main/grok",
+      "keywords": ["browser use", "browser-use", "web automation", "agent"],
+      "domains": ["browser-use.com", "cloud.browser-use.com"]
+    }
+  ]
+}
