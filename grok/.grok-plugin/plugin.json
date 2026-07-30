@@ -1,0 +1,16 @@
+{
+	"name": "browser-use",
+	"version": "0.1.0",
+	"description": "Give Grok a real browser — your Chrome or an isolated Browser Use Cloud browser. Use it whenever a task involves a website or web app: browsing, scraping and data extraction, filling forms, testing sites, taking screenshots, automating web workflows.",
+	"author": {
+		"name": "Browser Use",
+		"url": "https://browser-use.com"
+	},
+	"homepage": "https://browser-use.com",
+	"repository": "https://github.com/browser-use/plugins",
+	"license": "MIT",
+	"keywords": [
+		"browser use",
+		"browser-use"
+	]
+}
