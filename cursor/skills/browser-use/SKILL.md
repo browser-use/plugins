@@ -9,7 +9,7 @@ Direct browser control via CDP. For setup, install, or connection problems, read
 
 ## Two ways to drive the browser
 
-1. **MCP tools (preferred when connected):** this plugin registers the `browser-use` MCP server. Use its `browser_exec` tool (run Python with the helpers below pre-imported; the namespace persists across calls) and `browser_screenshot` tool. The server self-installs via `uvx browser-use@latest --cli-mcp` — it only requires `uv` on PATH.
+1. **MCP tools (preferred when connected):** this plugin registers the `browser-use` MCP server. Use its `browser_exec` tool (run Python with the helpers below pre-imported; the namespace persists across calls) and `browser_screenshot` tool. The server self-installs via `uvx browser-use@0.13.7 --cli-mcp` — it only requires `uv` on PATH.
 2. **CLI in a shell:** run `browser-use` with a heredoc. Same helpers, same daemon.
 
 ```bash

@@ -2,7 +2,7 @@
 	"mcpServers": {
 		"browser-use": {
 			"command": "uvx",
-			"args": ["--python", "3.12", "browser-use@latest", "--cli-mcp"]
+			"args": ["--python", "3.12", "browser-use@0.13.7", "--cli-mcp"]
 		}
 	}
 }

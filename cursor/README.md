@@ -3,7 +3,7 @@
 Gives Cursor's agent a real browser via the Browser Use CLI. Bundles:
 
 - **Skill** (`skills/browser-use/SKILL.md`): teaches the agent to drive Chrome (or a Browser Use Cloud browser) through the `browser-use` CLI — navigation, coordinate clicks, extraction, screenshots, cloud daemons.
-- **MCP server** (`mcp.json`): registers `uvx browser-use@latest --cli-mcp`, a self-installing stdio server exposing `browser_exec` and `browser_screenshot` with a persistent Python helper namespace.
+- **MCP server** (`mcp.json`): registers `uvx browser-use@0.13.7 --cli-mcp`, a self-installing stdio server exposing `browser_exec` and `browser_screenshot` with a persistent Python helper namespace.
 
 Only prerequisite on the user's machine: [uv](https://docs.astral.sh/uv/).
 
