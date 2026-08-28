@@ -2,7 +2,11 @@
 	"mcpServers": {
 		"browser-use": {
 			"command": "uvx",
-			"args": ["--python", "3.12", "browser-use@latest", "--cli-mcp"]
+			"args": ["--python", "3.12", "browser-use@latest", "--cli-mcp"],
+			"env": {
+				"BH_CLIENT": "grok-build",
+				"BH_CLIENT_VERSION": "0.1.0"
+			}
 		}
 	}
 }
