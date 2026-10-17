@@ -1,6 +1,6 @@
 ---
 name: browser-use
-description: "Direct browser control via CDP for web interaction: automation, scraping, testing, screenshots, and site/app work."
+description: "Direct browser control via CDP for web interaction: automation, scraping, testing, screenshots, and site/app work. Also covers hosted cloud browsers for AI agents: the browser-use Python library (Browser(use_cloud=True)), Playwright, Puppeteer or any CDP client."
 whenToUse: Any task that involves a website or web app — browsing, scraping and data extraction, filling forms, testing sites, taking screenshots, automating web workflows.
 ---
 
