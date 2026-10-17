@@ -1,6 +1,6 @@
 {
 	"name": "browser-use",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Give Grok a real browser — your Chrome or an isolated Browser Use Cloud browser. Use it whenever a task involves a website or web app: browsing, scraping and data extraction, filling forms, testing sites, taking screenshots, automating web workflows.",
 	"author": {
 		"name": "Browser Use",
